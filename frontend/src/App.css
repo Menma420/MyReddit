@@ -1,0 +1,432 @@
+/* Base Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Disable horizontal scrolling */
+}
+
+.App {
+  max-width: 100%; /* Ensure the main container does not exceed the viewport */
+  overflow-x: hidden; /* Prevent overflow in the main container */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9; /* Light background for a clean look */
+  height: 100vh;
+  width: 100vw;
+}
+
+.App {
+  width: 100vw;
+  min-height: 100vh; /* Ensures full height on smaller content */
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  flex-direction: column;
+  padding: 0  ;
+  box-sizing: border-box;
+}
+
+/* Post Card Styles */
+.post {
+  width: 400px;
+  min-height: 300px;
+  border-radius: 15px; /* Increased rounding for modern feel */
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  background-color: #fff; /* Clean white background */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px; /* Softer shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post:hover {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 7px 15px;
+  transform: translateY(-5px); /* Subtle lift effect on hover */
+  cursor: pointer;
+}
+
+/* Title Section */
+.post .title {
+  flex: 20%;
+  background: linear-gradient(45deg, #007bff, #0056d6); /* Gradient for a vibrant look */
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  display: grid;
+  place-content: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Body Section */
+.post .body {
+  flex: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px; /* Added padding for better spacing */
+  text-align: center;
+  font-size: 1rem; /* Standard readable font size */
+  color: #555; /* Softer color for contrast against the white background */
+  overflow: auto; /* Handles long text gracefully */
+  line-height: 1.6; /* Improved line spacing for readability */
+  word-break: break-word; /* Prevents text overflow issues */
+  background-color: #f8f9fa; /* Light gray background for separation */
+  border-left: 4px solid #007bff; /* Adds a stylish accent */
+  border-right: 4px solid #007bff;
+  border-radius: 0 0 10px 10px; /* Matches the design flow */
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+ 
+
+/* Footer Section */
+.post .footer {
+  flex: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Evenly space elements */
+  padding: 0 15px;
+  background-color: #007bff; /* Consistent with title */
+  color: white;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  font-size: 0.9rem;
+}
+
+.post .footer span {
+  font-weight: bold;
+}
+
+.post .footer a {
+  text-decoration: none;
+  color: white;
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background 0.2s ease;
+}
+
+.post .footer a:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .post {
+    width: 90%; /* Make cards responsive on smaller screens */
+  }
+}
+
+/* Form Container */
+.createPostPage {
+  width: 100%;
+  max-width: 500px;
+  background-color: #ffffff; /* White card background */
+  border: 1px solid #e0e0e0; /* Subtle border */
+  border-radius: 10px; /* Smooth rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 30px;
+  box-sizing: border-box;
+  transition: box-shadow 0.3s;
+  position: absolute;
+  top: 25%;
+}
+
+.createPostPage:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Highlight on hover */
+}
+
+/* Form Labels */
+.createPostPage label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Form Fields */
+.createPostPage input {
+  width: 90%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #1a1a1b;
+  background-color: #f7f7f8; /* Subtle gray background */
+  border: 1px solid #d6d6d6; /* Soft border */
+  border-radius: 5px; /* Rounded corners */
+  outline: none;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.createPostPage input:focus {
+  border-color: #0079d3; /* Reddit blue */
+  background-color: #ffffff;
+  box-shadow: 0 0 4px rgba(0, 121, 211, 0.3); /* Light blue glow */
+}
+
+/* Error Messages */
+.createPostPage .error-message {
+  color: #d93025; /* Red for errors */
+  font-size: 12px;
+  margin-top: -15px;
+  margin-bottom: 15px;
+}
+
+/* Submit Button */
+.createPostPage button {
+  display: inline-block;
+  width: 90%;
+  padding: 12px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #0079d3; /* Reddit blue */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.createPostPage button:hover {
+  background-color: #005bb5; /* Darker blue */
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+.createPostPage button:active {
+  transform: translateY(0); /* Reset lift on click */
+}
+
+span{
+  color: red;
+}
+
+/* Navbar Styles */
+.navbar {
+  width: 100vw;
+  background-color: #007bff; /* Primary color */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+}
+
+.navbar-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 20px; /* Space between links */
+  justify-content: space-around;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #ffdd57; /* Highlight color on hover */
+}
+
+.active-link {
+  color: #ffdd57; /* Highlight active link */
+  font-weight: bold;
+}
+
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .createPostPage {
+    padding: 20px;
+  }
+
+  .createPostPage button {
+    font-size: 14px;
+  }
+}
+
+
+/* Post css */
+
+.postPage {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+  max-width: 800px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.leftSide {
+  flex: 2;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.rightSide {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.postText {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.username {
+  font-size: 0.9rem;
+  color: #777;
+  font-style: italic;
+}
+
+.commentSection {
+  font-size: 1rem;
+  color: #333;
+}
+
+.commentSection h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #444;
+}
+
+.commentSection p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .postPage {
+      flex-direction: column;
+  }
+
+  .leftSide,
+  .rightSide {
+      border-right: none;
+      border-bottom: 1px solid #ddd;
+  }
+}
+
+/* Comment css */
+.rightSide {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-left: 1px solid #ddd;
+}
+
+.addCommentContainer {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.addCommentContainer input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.addCommentContainer input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+.addCommentContainer button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addCommentContainer button:hover {
+  background-color: #0056b3;
+}
+
+.listOfComments {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.listOfComments::-webkit-scrollbar {
+  width: 8px;
+}
+
+.listOfComments::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.listOfComments::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+.comment {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 1rem;
+  color: #555;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment:hover {
+  background-color: #f0f0f0;
+}

@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgresql",
+    "database": "FirstFullStack",
+    "host": "localhost",
+    "post": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "postgresql",
+    "database": "test_database",
+    "host": "localhost",
+    "post": 5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "postgresql",
+    "database": "prod_database",
+    "host": "localhost",
+    "post": 5432,
+    "dialect": "postgres"
+  }
+}
