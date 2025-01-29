@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 function Login() {
   const navigate = useNavigate();
 
@@ -24,53 +23,57 @@ function Login() {
       .required("Password is required"),
   });
 
-  const login = (values) => {
-    // Send login request
+  // The login function where resetForm is passed and used
+  const login = (values, { resetForm }) => {
     axios
       .post("http://localhost:4000/auth/login", values)
       .then((response) => {
         if (response.data.error) {
-          alert(response.data.error); // Display error from the server
+          alert(response.data.error);
         } else {
-          console.log("Login successful", response.data);
-          navigate("/"); // Redirect to posts
+          sessionStorage.setItem("accessToken", response.data);
+          console.log("Successful!");
+          navigate("/"); // Redirect after successful login
         }
       })
       .catch((error) => {
         console.error("Error during login:", error);
         alert("Login failed. Please try again.");
+        resetForm(); // Reset form fields after failure
       });
   };
 
   return (
     <div>
       <h1>Login</h1>
-      <div className="LoginPage">
+      <div className="formContainer"> {/* Applying class here */}
         <Formik
           initialValues={initialValues}
           onSubmit={login}
           validationSchema={validationSchema}
         >
-          <Form>
-            <label>Username: </label>
-            <ErrorMessage name="username" component="span" className="error-message" />
-            <Field
-              id="inputUsername"
-              name="username"
-              placeholder="(Ex. KelaKumar)"
-            />
+          {({ resetForm }) => (
+            <Form>
+              <label>Username: </label>
+              <ErrorMessage name="username" component="span" className="error-message" />
+              <Field
+                id="inputUsername"
+                name="username"
+                placeholder="(Ex. KelaKumar)"
+              />
 
-            <label>Password: </label>
-            <ErrorMessage name="password" component="span" className="error-message" />
-            <Field
-              id="inputPassword"
-              name="password"
-              type="password"
-              placeholder="Your password"
-            />
+              <label>Password: </label>
+              <ErrorMessage name="password" component="span" className="error-message" />
+              <Field
+                id="inputPassword"
+                name="password"
+                type="password"
+                placeholder="Your password"
+              />
 
-            <button className="loginSubmit" type="submit">Login</button>
-          </Form>
+              <button className="loginSubmit" type="submit">Login</button>
+            </Form>
+          )}
         </Formik>
       </div>
     </div>

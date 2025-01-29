@@ -6,32 +6,33 @@ const {sign} = require("jsonwebtoken");
 
 
 router.post("/", async (req, res) => {
-    const { username, password } = req.body;
+    try {
+        const { username, password } = req.body;
 
-    bcrypt.hash(password, 10, (err, hash) => {
-        if (err) {
-            console.error("Error hashing password:", err);
-            return res.status(500).json({ error: "Internal server error" });
+        // Check if the user already exists
+        const existingUser = await Users.findOne({ where: { username: username } });
+
+        if (existingUser) {
+            return res.status(400).json({ error: "Username already exists" });
         }
 
-        Users.create({
-            username: username,
-            password: hash,
-        })
-            .then(() => {
-                res.json("Success");
-            })
-            .catch((error) => {
-                console.error("Error creating user:", error);
-                res.status(500).json({ error: "Failed to create user" });
-            });
-    });
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create new user
+        await Users.create({
+            username,
+            password: hashedPassword,
+        });
+
+        res.status(201).json({ message: "User registered successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
-
-    try {
         // Check if user exists
         const user = await Users.findOne({ where: { username: username } });
 
@@ -40,18 +41,15 @@ router.post("/login", async (req, res) => {
         }
 
         // Compare provided password with the hashed password
-        const match = await bcrypt.compare(password, user.password);
-
-        if (!match) {
-            return res.status(401).json({ error: "Wrong password" });
-        }
-
-        // Successful login
-        res.json({ message: "Successful login" });
-    } catch (error) {
-        console.error("Error during login:", error);
-        res.status(500).json({ error: "Internal server error" });
-    }
+        bcrypt.compare(password, user.password).then(async (match) => {
+            if (!match) res.json({ error: "Wrong Username And Password Combination" });
+        
+            const accessToken = sign(
+              { username: user.username, id: user.id },
+              "importantsecret"
+            );
+            res.json(accessToken);
+          });
 });
 
 module.exports = router;

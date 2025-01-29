@@ -131,8 +131,8 @@ body {
   }
 }
 
-/* Form Container */
-.createPostPage {
+/* Common styles for Register and Login */
+.formContainer {
   width: 100%;
   max-width: 500px;
   background-color: #ffffff; /* White card background */
@@ -143,15 +143,17 @@ body {
   box-sizing: border-box;
   transition: box-shadow 0.3s;
   position: absolute;
-  top: 25%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the form */
 }
 
-.createPostPage:hover {
+.formContainer:hover {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Highlight on hover */
 }
 
 /* Form Labels */
-.createPostPage label {
+.formContainer label {
   display: block;
   font-weight: bold;
   margin-bottom: 8px;
@@ -160,7 +162,7 @@ body {
 }
 
 /* Form Fields */
-.createPostPage input {
+.formContainer input {
   width: 90%;
   padding: 12px 15px;
   margin-bottom: 20px;
@@ -173,14 +175,14 @@ body {
   transition: border-color 0.3s, background-color 0.3s;
 }
 
-.createPostPage input:focus {
+.formContainer input:focus {
   border-color: #0079d3; /* Reddit blue */
   background-color: #ffffff;
   box-shadow: 0 0 4px rgba(0, 121, 211, 0.3); /* Light blue glow */
 }
 
 /* Error Messages */
-.createPostPage .error-message {
+.formContainer .error-message {
   color: #d93025; /* Red for errors */
   font-size: 12px;
   margin-top: -15px;
@@ -188,7 +190,7 @@ body {
 }
 
 /* Submit Button */
-.createPostPage button {
+.formContainer button {
   display: inline-block;
   width: 90%;
   padding: 12px 15px;
@@ -202,18 +204,23 @@ body {
   transition: background-color 0.3s, transform 0.2s;
 }
 
-.createPostPage button:hover {
+.formContainer button:hover {
   background-color: #005bb5; /* Darker blue */
   transform: translateY(-2px); /* Subtle lift effect */
 }
 
-.createPostPage button:active {
+.formContainer button:active {
   transform: translateY(0); /* Reset lift on click */
 }
 
-span{
+/* Error Text (for span) */
+span {
   color: red;
 }
+
+
+
+
 
 /* Navbar Styles */
 .navbar {
