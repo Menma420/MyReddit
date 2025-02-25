@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState, useContext} from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../helpers/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ function Login() {
     username: "",
     password: "",
   };
+
+  const {setAuthState} = useContext(AuthContext);
 
   const validationSchema = Yup.object().shape({
     username: Yup.string()
@@ -31,7 +34,8 @@ function Login() {
         if (response.data.error) {
           alert(response.data.error);
         } else {
-          sessionStorage.setItem("accessToken", response.data);
+          localStorage.setItem("accessToken", response.data);
+          setAuthState(true);
           console.log("Successful!");
           navigate("/"); // Redirect after successful login
         }
@@ -46,7 +50,7 @@ function Login() {
   return (
     <div>
       <h1>Login</h1>
-      <div className="formContainer"> {/* Applying class here */}
+      <div className="formContainer"> 
         <Formik
           initialValues={initialValues}
           onSubmit={login}

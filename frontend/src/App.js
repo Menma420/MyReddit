@@ -5,10 +5,31 @@ import CreatePost from "./Pages/CreatePost";
 import Post from "./Pages/Post";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
+import { AuthContext } from "./helpers/AuthContext";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 
 function App() {
+
+  const [authState, setAuthState] = useState(false);
+
+  useEffect(() => {
+    axios.get('http://localhost:4000/auth/auth', {headers: {
+      accessToken: localStorage.getItem("accessToken"),
+    } }).then((response) =>{
+      if(response.data.error){
+        setAuthState(false);
+      }
+      else{
+        setAuthState(true);
+      }
+    });
+  }, []);
+
   return (
     <div className="App">
+      <AuthContext.Provider value = {{authState, setAuthState}}>
       <Router>
         {/* Navigation Bar */}
         <nav className="navbar">
@@ -24,6 +45,9 @@ function App() {
             >
               Create A Post
             </NavLink>
+
+            { !authState && (
+              <>
             <NavLink
               to="/login"
               activeClassName="active-link"
@@ -37,6 +61,8 @@ function App() {
               className="nav-link"
             >Register
             </NavLink>
+            </>
+            )}
           </div>
         </nav>
 
@@ -49,6 +75,7 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
+      </AuthContext.Provider>
     </div>
   );
 }
