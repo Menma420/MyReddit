@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useContext} from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -34,8 +34,8 @@ function Login() {
         if (response.data.error) {
           alert(response.data.error);
         } else {
-          localStorage.setItem("accessToken", response.data);
-          setAuthState(true);
+          localStorage.setItem("accessToken", response.data.token);
+          setAuthState({username: response.username, id: response.id, status: true});
           console.log("Successful!");
           navigate("/"); // Redirect after successful login
         }
