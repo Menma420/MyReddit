@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { AuthContext } from "../helpers/AuthContext";
 
 function Home(){
 
@@ -11,18 +12,24 @@ function Home(){
 
     const [listofPosts, setListofPosts] = useState([]);
     const [likedPosts, setLikedPosts] = useState([]);
+    const {authState} = useContext(AuthContext);
 
     useEffect(() => {
-      axios.get('http://localhost:4000/posts',{
-        headers: { accessToken: localStorage.getItem("accessToken") },
-      })
-      .then((response) => {
-          console.log(response.data);
-          setListofPosts(response.data.listofPosts);
-          setLikedPosts(response.data.likedPosts.map((like) => {
-            return like.PostId;
-          }));
-      });
+
+      if(!localStorage.getItem("accessToken")){
+        navigate("/login");
+      }else{
+        axios.get('http://localhost:4000/posts',{
+          headers: { accessToken: localStorage.getItem("accessToken") },
+        })
+        .then((response) => {
+            console.log(response.data);
+            setListofPosts(response.data.listofPosts);
+            setLikedPosts(response.data.likedPosts.map((like) => {
+              return like.PostId;
+            }));
+        });
+      }
     }, []);
 
     const likePost = (PostId) => {

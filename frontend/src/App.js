@@ -42,17 +42,6 @@ function App() {
         <nav className="navbar">
           <div className="navbar-logo">MyReddit</div>
           <div className="navbar-links">
-            <NavLink to="/" activeClassName="active-link" className="nav-link">
-              Home
-            </NavLink>
-            <NavLink
-              to="/createPost"
-              activeClassName="active-link"
-              className="nav-link"
-            >
-              Create A Post
-            </NavLink>
-
             { !authState.status ? (
               <>
             <NavLink
@@ -70,10 +59,22 @@ function App() {
             </NavLink>
             </>
             ) : (
-              <button onClick={logout}>Logout</button>
-            )}
 
+              <>
+              <NavLink to="/" activeClassName="active-link" className="nav-link">
+              Home
+            </NavLink>
+            <NavLink
+              to="/createPost"
+              activeClassName="active-link"
+              className="nav-link"
+            >
+              Create A Post
+            </NavLink>
             <h3>{authState.username}</h3>
+            <button onClick={logout}>Logout</button>
+              </>
+            )}
           </div>
         </nav>
 

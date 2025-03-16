@@ -17,10 +17,22 @@ router.get("/byId/:id", async (req,res) => {
     res.json(post); 
 });
 
-router.post("/", async (req, res) => {
+router.post("/", validateToken , async (req, res) => {
     const post = req.body;
+    post.username = req.user.username;
     await Posts.create(post);
     res.json(post);
+});
+
+router.delete("/:postId", validateToken, async (req,res) =>{
+    const postId = req.params.postId;
+    await Posts.destroy({
+        where:{
+            id: postId,
+        },
+    });
+
+    res.json("Post deleted");
 });
 
 module.exports = router;
