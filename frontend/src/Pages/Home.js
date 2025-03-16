@@ -2,17 +2,26 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 function Home(){
 
     const navigate = useNavigate();
 
     const [listofPosts, setListofPosts] = useState([]);
+    const [likedPosts, setLikedPosts] = useState([]);
 
     useEffect(() => {
-      axios.get('http://localhost:4000/posts').then((response) => {
+      axios.get('http://localhost:4000/posts',{
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then((response) => {
           console.log(response.data);
-          setListofPosts(response.data);
+          setListofPosts(response.data.listofPosts);
+          setLikedPosts(response.data.likedPosts.map((like) => {
+            return like.PostId;
+          }));
       });
     }, []);
 
@@ -26,9 +35,11 @@ function Home(){
           prevPosts.map((post) => {
             if (post.id === PostId) {
               if (response.data.liked) {
-                return { ...post, Likes: [...post.Likes, 0] };  // Add a like
+                setLikedPosts([...likedPosts, PostId]);
+                return { ...post, Likes: [...post.Likes, 0] }; 
               } else {
-                return { ...post, Likes: post.Likes.slice(0, -1) }; // Remove a like safely
+                setLikedPosts(likedPosts.filter((id) => id !== PostId));
+                return { ...post, Likes: post.Likes.slice(0, -1) }; 
               }
             }
             return post;
@@ -53,7 +64,12 @@ function Home(){
             navigate(`/post/${value.id}`);
           }}>{value.postText}</div>
             <div className="footer">{value.username} 
-            <button onClick={() => {likePost(value.id)}}> Like </button> 
+            {likedPosts.includes(value.id) ? 
+              <FavoriteIcon onClick={() => likePost(value.id)} />  :
+             <FavoriteBorderIcon onClick={() => likePost(value.id)} />
+          }
+            
+          
             <label>{value.Likes.length}</label> </div>
           </div>
         ); 
