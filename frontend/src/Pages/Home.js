@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { AuthContext } from "../helpers/AuthContext";
@@ -63,24 +63,23 @@ function Home(){
 
     return (
         <div>
-             {listofPosts.map((value,key) => {
-        return (
-          <div className="post">
-            <div className="title">{value.title}</div>
-            <div className="body" onClick={() => {
-            navigate(`/post/${value.id}`);
-          }}>{value.postText}</div>
-            <div className="footer">{value.username} 
-            {likedPosts.includes(value.id) ? 
-              <FavoriteIcon onClick={() => likePost(value.id)} />  :
-             <FavoriteBorderIcon onClick={() => likePost(value.id)} />
-          }
-            
-          
-            <label>{value.Likes.length}</label> </div>
-          </div>
-        ); 
-      })}
+          {listofPosts.map((value,key) => {
+            return (
+              <div className="post">
+                <div className="title">{value.title}</div>
+                <div className="body" onClick={() => {
+                navigate(`/post/${value.id}`);
+              }}>{value.postText}</div>
+                <div className="footer">
+                <Link to={`/profile/${value.UserId}`}> {value.username}</Link>
+                {likedPosts.includes(value.id) ? 
+                  <FavoriteIcon onClick={() => likePost(value.id)} />  :
+                <FavoriteBorderIcon onClick={() => likePost(value.id)} />
+              }
+                <label>{value.Likes.length}</label> </div>
+              </div>
+            ); 
+          })}
         </div>
     );
 }
