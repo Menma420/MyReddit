@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, NavLink, useNavigate } from "react-router-dom";
 import Home from "./Pages/Home";
 import CreatePost from "./Pages/CreatePost";
 import Post from "./Pages/Post";
@@ -16,6 +16,7 @@ import axios from "axios";
 function App() {
 
   const [authState, setAuthState] = useState({username: "", id: 0, status: false});
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('http://localhost:4000/auth/auth', {headers: {
@@ -34,12 +35,12 @@ function App() {
   const logout = () => {
     localStorage.removeItem("accessToken");
     setAuthState({username: "", id: 0, status: false});
+    navigate("/login");
   }
 
   return (
     <div className="App">
       <AuthContext.Provider value = {{authState, setAuthState}}>
-      <Router>
         {/* Navigation Bar */}
         <nav className="navbar">
           <div className="navbar-logo">MyReddit</div>
@@ -91,7 +92,6 @@ function App() {
           <Route path="/changePassword" element={<ChangePassword />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-      </Router>
       </AuthContext.Provider>
     </div>
   );
