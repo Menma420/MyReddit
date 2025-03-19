@@ -72,11 +72,50 @@ function Post(){
         });
     }
 
+
+    const editPost = (option) => {
+        if(option === "title"){
+            let newTitle = prompt("Enter new title: ");
+            axios.put("http://localhost:4000/posts/title", {
+                newTitle: newTitle,
+                id: id,
+            }, {
+                headers: {
+                    accessToken: localStorage.getItem("accessToken")
+                },
+            }).then((response) => {
+                setPostObject({...postObject, title: newTitle});
+                alert("Title updated");
+            })
+        }else{
+            let newBody = prompt("Enter new text: ");
+            axios.put("http://localhost:4000/posts/postText", {
+                newText: newBody,
+                id: id,
+            },{
+                headers: {
+                    accessToken: localStorage.getItem("accessToken"),
+                }
+            }).then((response) => {
+                setPostObject({...postObject, postText: newBody});
+                alert("Post content updated");
+            })
+        }
+    }
+
     return (
         <div className='postPage'>
         <div className='leftSide'>
-        <div className='title'>{postObject.title}</div>
-        <div className='postText'>{postObject.postText}</div>
+        <div className='title' 
+            onClick={() => 
+                {if(authState.username === postObject.username)
+                    editPost("title")
+                }}>{postObject.title}</div>
+        <div className='postText'
+            onClick = {() => 
+                {if(authState.username === postObject.username)
+                        ( editPost("body"))
+                }}>{postObject.postText}</div>
         <div className='username'>{postObject.username}
             { authState.username === postObject.username && <button onClick={() => {deletePost(postObject.id)}}>Delete Post</button> } </div>
         </div>

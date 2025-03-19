@@ -6,7 +6,6 @@ const {validateToken} = require("../middlewares/Authmiddleware");
 
 router.get("/", validateToken, async (req, res) => {
     const listofPosts = await Posts.findAll({include: [Likes]});
-
     const likedPosts = await Likes.findAll({where: {UserId: req.user.id}});
     res.json({listofPosts: listofPosts, likedPosts: likedPosts});
 });
@@ -34,6 +33,19 @@ router.post("/", validateToken , async (req, res) => {
     await Posts.create(post);
     res.json(post);
 });
+
+router.put("/title", validateToken , async (req, res) => {
+    const {newTitle, id} = req.body;
+    await Posts.update({title: newTitle}, {where: {id: id}});
+    res.json(newTitle);
+});
+
+router.put("/postText", validateToken , async (req, res) => {
+    const {newText, id} = req.body;
+    await Posts.update({postText: newText}, {where: {id: id}});
+    res.json(newText);
+});
+
 
 router.delete("/:postId", validateToken, async (req,res) =>{
     const postId = req.params.postId;
